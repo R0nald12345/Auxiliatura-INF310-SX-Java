@@ -28,4 +28,14 @@ public interface IArbolBusqueda<K extends Comparable<K>,V> {
     List<K> recorridoEnPostOrden();
     List<K> recorridoPorNiveles();
     
+    int contarNumerosPares();
+    int contarNumeroImpar();
+    void recorridoInOrdenR();
+    void recorridoPreOrdenR();
+    void recorridoPostOrdenR();
+    int obtenerAlturaArbol();
+    int obtenerCantidadNodosIncompletos();
+    void eliminarDatoXDeUnArbol(int valorX);
+    NodoBinario<K,V> eliminarNodo(NodoBinario<K,V> punteroNodo);
+    NodoBinario<K, V> buscarSiguienteSucesor(NodoBinario<K,V> nodo);
 }

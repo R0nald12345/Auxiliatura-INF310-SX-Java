@@ -207,4 +207,203 @@ public  class ArbolBinarioBusqueda<K extends Comparable <K>,V> implements IArbol
             return verificarExisteMask(nodoRaiz.getHijoDerecho(), valorX);
         }
     }
+    
+    //Eliminar 
+    // 3 Casoss 
+
+    @Override
+    public int contarNumerosPares() {
+        return contarNumerosParesRecursivo(this.raiz);
+    }
+    
+    private int contarNumerosParesRecursivo(NodoBinario<K,V> raizAuxiliar){
+        //primer caso base (Arbol vacio)
+        if(raizAuxiliar == null){
+            return 0;
+        }
+        //2do Caso Base
+        if(raizAuxiliar.esHoja()){
+            int valor = (Integer)raizAuxiliar.getClave();
+            if( valor % 2 == 0 ){
+               return 1; 
+            }else{ //Tomar en consideracion
+                return 0;
+            }
+        }
+        
+        //Caso General
+        int cantidadHijoI = contarNumerosParesRecursivo(raizAuxiliar.getHijoIzquierdo()); // 2
+        int cantidadHijoD = contarNumerosParesRecursivo(raizAuxiliar.getHijoDerecho());  // 1 
+        
+        int valorPadre = (Integer)raizAuxiliar.getClave();
+        if(valorPadre %2 == 0){
+            return cantidadHijoI + cantidadHijoD + 1;
+        }else{
+            return cantidadHijoI + cantidadHijoD;
+        }
+        
+    }
+
+    @Override
+    public int contarNumeroImpar() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void recorridoInOrdenR() {
+        recorridoInOrdenRecursivo(this.raiz);
+    }
+    
+    private void recorridoInOrdenRecursivo(NodoBinario<K,V> raizAuxiliar){
+        //Caso Base
+        if(raizAuxiliar == null){
+            return;
+        }
+        recorridoInOrdenRecursivo(raizAuxiliar.getHijoIzquierdo());
+        System.out.print(raizAuxiliar.getClave() + " " );
+        recorridoInOrdenRecursivo(raizAuxiliar.getHijoDerecho());
+    }
+    
+
+    @Override
+    public void recorridoPreOrdenR() {
+        recorridoPreOrdenRecursivo(this.raiz);
+    }
+    
+    private void recorridoPreOrdenRecursivo(NodoBinario<K,V> raizAuxiliar){
+        if(raizAuxiliar == null){
+            return;
+        }
+        System.out.print(raizAuxiliar.getClave() + " ");
+        recorridoPreOrdenRecursivo(raizAuxiliar.getHijoIzquierdo());
+        recorridoPreOrdenRecursivo(raizAuxiliar.getHijoDerecho());
+    }
+    
+    
+
+    @Override
+    public void recorridoPostOrdenR() {
+        recorridoPostOrdenRecursivo(this.raiz);
+    }
+    
+    private void recorridoPostOrdenRecursivo(NodoBinario<K,V> raizAuxiliar){
+        if(raizAuxiliar == null){
+            return;
+        }
+        recorridoPostOrdenRecursivo(raizAuxiliar.getHijoIzquierdo());
+        recorridoPostOrdenRecursivo(raizAuxiliar.getHijoDerecho());
+        System.out.print(raizAuxiliar.getClave() + " ");
+    }
+
+    @Override
+    public int obtenerAlturaArbol() {
+        return obtenerAlturaRecursivo(this.raiz);
+    }
+    
+    private int obtenerAlturaRecursivo(NodoBinario<K,V> raizAuxiliar){
+        //1er Caso BAse si mi arbol esta vacio
+        if(raizAuxiliar == null){
+            return 0;
+        }
+        //2do Caso base si mi arbol tiene 1 Nodo
+        if(raizAuxiliar.esHoja()){
+            return 1;
+        }
+        //Caso General (Mas de 1 Nodo)
+        int hijoIzquierdo = obtenerAlturaRecursivo(raizAuxiliar.getHijoIzquierdo());
+        int hijoDerecho = obtenerAlturaRecursivo(raizAuxiliar.getHijoDerecho());
+        if(hijoIzquierdo > hijoDerecho){
+            return hijoIzquierdo + 1;
+        }else{
+            return hijoDerecho + 1;
+        }
+        
+    }
+
+    @Override
+    public int obtenerCantidadNodosIncompletos() {
+        return obtenerCantidadNodosIncompletosRecursivo(this.raiz);
+        
+    }
+    
+    private int obtenerCantidadNodosIncompletosRecursivo(NodoBinario<K,V> raizAuxiliar){
+        if(raizAuxiliar == null){
+            return 0;
+        }
+        if(raizAuxiliar.esHoja()){
+            return 0;
+        }
+        int i = obtenerCantidadNodosIncompletosRecursivo(raizAuxiliar.getHijoIzquierdo()); // 2
+        int d = obtenerCantidadNodosIncompletosRecursivo(raizAuxiliar.getHijoDerecho()); // 1
+//        for (int j = 0; j < 10; j++) { desde el primer hijo hasta el final del Hijo
+//            
+//        }
+        if(raizAuxiliar.cantidadHijo() == 1){
+            return i +d +1;
+        }else{
+            return i + d;
+        }
+        
+    }
+
+    @Override
+    public void eliminarDatoXDeUnArbol(int valorX) {
+        this.raiz = eliminarDatoXDeUnArbolRecursivo(this.raiz, valorX);
+    }
+    
+    private NodoBinario<K,V> eliminarDatoXDeUnArbolRecursivo(NodoBinario<K,V> raizAuxiliar,int valorX){
+        //en el caso que sea vacio
+        if(raizAuxiliar == null){ 
+            return null;
+        }
+        //en el caso que tenga 1 solo Nodo
+        int ClaveRaiz = (Integer)raizAuxiliar.getClave();
+        if(ClaveRaiz == valorX){
+            return eliminarNodo(raizAuxiliar);
+        }
+        
+        if(valorX < ClaveRaiz){
+            NodoBinario<K,V> nuevoSubArbolIzquierdo =  eliminarDatoXDeUnArbolRecursivo(raizAuxiliar.getHijoIzquierdo(),valorX);
+            raizAuxiliar.setHijoIzquierdo(nuevoSubArbolIzquierdo);
+        }else{
+            NodoBinario<K,V> nuevoSubArbolDerecho = eliminarDatoXDeUnArbolRecursivo(raizAuxiliar.getHijoDerecho(), valorX);
+            raizAuxiliar.setHijoDerecho(nuevoSubArbolDerecho );
+        }
+        return raizAuxiliar;
+    }
+
+    @Override
+    public NodoBinario<K,V> eliminarNodo(NodoBinario<K, V> punteroNodo) {
+        //Caso 0
+        if(punteroNodo.getHijoIzquierdo() == null && punteroNodo.getHijoDerecho() == null){
+            return null;
+        }
+        
+        //Caso 1
+        //En el Caso que de existe solo hijo Derecho
+        if(punteroNodo.getHijoIzquierdo() == null){
+            return punteroNodo.getHijoDerecho();
+        }
+        if(punteroNodo.getHijoDerecho() == null){
+            return punteroNodo.getHijoIzquierdo();
+        }
+        
+        //Caso 2
+        NodoBinario<K,V> nodoSucesor = buscarSiguienteSucesor(punteroNodo.getHijoDerecho());
+        punteroNodo.setClave(nodoSucesor.getClave());
+        NodoBinario<K,V> nuevoSubArbol = eliminarDatoXDeUnArbolRecursivo(punteroNodo.getHijoDerecho(),(Integer)nodoSucesor.getClave());
+        punteroNodo.setHijoDerecho(nuevoSubArbol);
+        return punteroNodo;
+    }
+
+    @Override
+    public NodoBinario<K, V> buscarSiguienteSucesor(NodoBinario<K, V> nodo) {
+        NodoBinario<K,V> sucesor = nodo;  //Codigo actualizado
+        while(sucesor.getHijoIzquierdo() != null){
+//            NodoBinario<K,V> nuevaRutaIzquierda = nodo.getHijoIzquierdo();
+            sucesor = sucesor.getHijoIzquierdo(); //Codigo Actualizado
+//            nodo.setHijoIzquierdo(nodo);
+        }
+        return sucesor; //Codigo actualizado
+    }
 }

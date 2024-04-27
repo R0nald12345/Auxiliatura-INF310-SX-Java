@@ -67,10 +67,19 @@ public class NodoBinario<K,V> {
     }
     
    
-    
+    public int cantidadHijo(){
+        if(this.hijoIzquierdo == null || this.hijoDerecho == null ){
+            return 1;
+        }
+        if(this.hijoIzquierdo == null && this.hijoDerecho == null){
+            return 0;
+        }
+        return 2;
+    }
     
     public boolean esHoja(){
         return this.esVacioHijoIzquierdo() && this.esVacioHijoDerecho();
+//          return this.hijoIzquierdo == null && this.hijoDerecho ==null;
     }
 
     

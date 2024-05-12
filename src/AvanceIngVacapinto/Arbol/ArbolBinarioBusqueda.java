@@ -398,12 +398,12 @@ public  class ArbolBinarioBusqueda<K extends Comparable <K>,V> implements IArbol
 
     @Override
     public NodoBinario<K, V> buscarSiguienteSucesor(NodoBinario<K, V> nodo) {
-        NodoBinario<K,V> sucesor = nodo;  //Codigo actualizado
+        NodoBinario<K,V> sucesor = nodo;  //Codigo actualizado para evitar bucle infinito
         while(sucesor.getHijoIzquierdo() != null){
 //            NodoBinario<K,V> nuevaRutaIzquierda = nodo.getHijoIzquierdo();
-            sucesor = sucesor.getHijoIzquierdo(); //Codigo Actualizado
+            sucesor = sucesor.getHijoIzquierdo(); //Codigo Actualizado para evitar bucle infinito
 //            nodo.setHijoIzquierdo(nodo);
         }
-        return sucesor; //Codigo actualizado
+        return sucesor; //Codigo actualizado para evitar bucle infinito
     }
 }
